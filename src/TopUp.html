@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Wallet - Top Up</title>
+    <!-- Tailwind Link -->
+    <link rel="stylesheet" href="./output.css" />
+    <!-- FontAwesome Icons -->
+    <script
+      src="https://kit.fontawesome.com/ba239f360c.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Top Bar -->
+    <div
+      class="flex justify-between bg-blue-950 px-5 py-7 items-center text-white"
+    >
+      <div class="text-lg font-bold">
+        <span class="text-blue-500">S</span>.Wallet
+      </div>
+      <a href="Home.html">
+        <i class="fa-solid fa-house text-2xl hover:text-blue-400"></i>
+      </a>
+    </div>
+    <!-- Top Up Section -->
+    <div class="flex justify-center items-center p-8">
+      <div class="bg-white shadow-md rounded-lg p-6 text-center">
+        <h2 class="text-lg font-semibold mb-4">Top Up Your Balance</h2>
+        <form>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Amount to Top Up
+            </label>
+            <input
+              type="number"
+              placeholder="$0.00"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Payment Method
+            </label>
+            <select
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              <option>Bank Account</option>
+              <option>Credit Card</option>
+              <option>PayPal</option>
+            </select>
+          </div>
+          <button
+            class="bg-blue-950 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+          >
+            Top Up
+          </button>
+        </form>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

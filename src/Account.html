@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Wallet - Account</title>
+    <!-- Tailwind Link -->
+    <link rel="stylesheet" href="./output.css" />
+    <!-- FontAwesome Icons -->
+    <script
+      src="https://kit.fontawesome.com/ba239f360c.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Top Bar -->
+    <div
+      class="flex justify-between bg-blue-950 px-5 py-7 items-center text-white"
+    >
+      <div class="text-lg font-bold">
+        <span class="text-blue-500">S</span>.Wallet
+      </div>
+      <a href="Home.html">
+        <i class="fa-solid fa-house text-2xl hover:text-blue-400"></i>
+      </a>
+    </div>
+
+    <!-- Account Info Section -->
+    <div class="p-6">
+      <div class="bg-white shadow-md rounded-lg p-4 text-center">
+        <img
+          src="./Images/user avatar.png"
+          alt="User Avatar"
+          class="mx-auto w-24 h-24 rounded-full mb-4"
+        />
+        <h2 class="text-lg font-semibold mb-2">Shune Lai</h2>
+        <p class="text-gray-600 mb-4">shunelai@gmail.com</p>
+        <button
+          class="bg-blue-950 text-white py-2 px-4 rounded-md hover:bg-blue-700 mb-4"
+        >
+          Edit Profile
+        </button>
+      </div>
+
+      <div class="mt-6 bg-white shadow-md rounded-lg p-4">
+        <h3 class="text-md font-semibold mb-3">Account Settings</h3>
+        <ul class="space-y-4">
+          <li>
+            <a
+              href="#"
+              class="flex justify-between items-center text-gray-700 hover:text-blue-500"
+            >
+              <span>Change Password</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex justify-between items-center text-gray-700 hover:text-blue-500"
+            >
+              <span>Manage Payment Methods</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              class="flex justify-between items-center text-gray-700 hover:text-blue-500"
+            >
+              <span>Privacy Settings</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              id="logout-link"
+              class="flex justify-between items-center text-gray-700 hover:text-blue-500 cursor-pointer"
+            >
+              <span>Logout</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      document.getElementById('logout-link').addEventListener('click', () => {
+        // Clear the authentication token from sessionStorage or localStorage
+        sessionStorage.removeItem('authToken'); // or localStorage.removeItem('authToken');
+        
+        // Redirect to the login page
+        window.location.href = 'Login.html';
+      });
+    </script>
+  </body>
+</html>

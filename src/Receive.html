@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate QR Code</title>
+    <link rel="stylesheet" href="./output.css" />
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/ba239f360c.js" crossorigin="anonymous"></script>
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Top Bar -->
+    <div class="flex justify-between bg-blue-950 px-5 py-7 items-center text-white">
+        <div class="text-lg font-bold">
+            <span class="text-blue-500">S</span>.Wallet
+        </div>
+        <a href="Home.html">
+            <i class="fa-solid fa-house text-2xl hover:text-blue-400"></i>
+        </a>
+    </div>
+
+    <!-- QR Code Generation Section -->
+    <div class="flex flex-col items-center justify-center min-h-screen p-6">
+        <h1 class="text-2xl font-bold mb-6">Generate QR Code</h1>
+        <input
+            type="text"
+            id="user-id-input"
+            class="p-2 border border-gray-300 rounded mb-4 w-80"
+            placeholder="Enter your User ID"
+        />
+        <button
+            id="generate-btn"
+            class="bg-blue-950 text-white py-2 px-4 rounded hover:bg-blue-700"
+        >
+            Generate QR Code
+        </button>
+        <div id="qrcode" class="mt-6 flex flex-col items-center">
+            <!-- QR Code will be displayed here -->
+        </div>
+        <button
+            id="save-btn"
+            class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4"
+            style="display: none;"
+        >
+            Save QR Code
+        </button>
+    </div>
+
+    <script>
+        document.getElementById("generate-btn").addEventListener("click", () => {
+            const userId = document.getElementById("user-id-input").value;
+            if (userId) {
+                const qrcodeContainer = document.getElementById("qrcode");
+                qrcodeContainer.innerHTML = ""; // Clear any previous QR code
+
+                // Generate QR code with User ID
+                new QRCode(qrcodeContainer, {
+                    text: userId,
+                    width: 256,
+                    height: 256,
+                    correctLevel: QRCode.CorrectLevel.H,
+                });
+
+                // Show Save QR Code button
+                document.getElementById("save-btn").style.display = "inline-block";
+            } else {
+                alert("Please enter a valid User ID.");
+            }
+        });
+
+        document.getElementById("save-btn").addEventListener("click", () => {
+            const qrCodeImage = document.querySelector("#qrcode img");
+            if (qrCodeImage) {
+                const imageUrl = qrCodeImage.src;
+                const a = document.createElement("a");
+                a.href = imageUrl;
+                a.download = "qrcode.png";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                alert("No QR code to save.");
+            }
+        });
+    </script>
+</body>
+</html>
