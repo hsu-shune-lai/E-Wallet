@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Wallet - Scan</title>
+    <!-- Tailwind Link -->
+    <link rel="stylesheet" href="./output.css" />
+    <!-- FontAwesome Icons -->
+    <script src="https://kit.fontawesome.com/ba239f360c.js" crossorigin="anonymous"></script>
+    <!-- HTML5 QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Top Bar -->
+    <div class="flex justify-between bg-blue-950 px-5 py-7 items-center text-white">
+        <div class="text-lg font-bold">
+            <span class="text-blue-500">S</span>.Wallet
+        </div>
+        <a href="Home.html">
+            <i class="fa-solid fa-house text-2xl hover:text-blue-400"></i>
+        </a>
+    </div>
+
+    <!-- Scan Section -->
+    <div class="p-6">
+        <h2 class="text-lg font-semibold mb-4">Scan QR Code</h2>
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <p class="text-gray-600 mb-4 text-center">
+                Scan a QR code to make payments or receive funds.
+            </p>
+
+            <!-- Camera Scan Area -->
+            <div id="camera-scan" class="bg-gray-200 p-4 rounded-lg mb-4">
+                <div id="qr-reader" style="width: 100%; height: 300px"></div>
+            </div>
+
+            <!-- File Upload -->
+            <div class="mb-4">
+                <input type="file" id="file-input" accept=".png, .jpg, .jpeg" class="p-2 border border-gray-300 rounded-md" />
+            </div>
+
+            <button id="start-scan" class="bg-blue-950 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                Start Scan
+            </button>
+            <button id="stop-scan" class="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-700 mt-2">
+                Stop Scan
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let html5QrCode;
+
+            // Start scanning via camera
+            document.getElementById("start-scan").addEventListener("click", () => {
+                const qrReader = document.getElementById("qr-reader");
+                html5QrCode = new Html5Qrcode("qr-reader");
+
+                html5QrCode.start(
+                    { facingMode: "environment" }, // Camera facing mode
+                    {
+                        fps: 10, // Frame rate
+                        qrbox: { width: 250, height: 250 }, // QR code box size
+                    },
+                    (decodedText, decodedResult) => {
+                        // Handle the result here
+                        console.log(`QR Code scanned: ${decodedText}`);
+                        html5QrCode.stop().then(() => {
+                            console.log("QR code scanning stopped.");
+                        }).catch((err) => {
+                            console.error("Error stopping QR code scanning: ", err);
+                        });
+
+                        // Redirect to Transfer page with auto-filled data
+                        window.location.href = `Transfer.html?toUserId=${encodeURIComponent(decodedText)}`;
+                    },
+                    (errorMessage) => {
+                        console.log(`QR Code scanning error: ${errorMessage}`);
+                    }
+                ).catch((err) => {
+                    console.error("Error starting QR code scanning: ", err);
+                });
+            });
+
+            // Stop scanning
+            document.getElementById("stop-scan").addEventListener("click", () => {
+                if (html5QrCode) {
+                    html5QrCode.stop().then(() => {
+                        console.log("QR code scanning stopped.");
+                    }).catch((err) => {
+                        console.error("Error stopping QR code scanning: ", err);
+                    });
+                }
+            });
+
+            // Scan QR code from an uploaded image file
+            document.getElementById("file-input").addEventListener("change", (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const imageData = reader.result;
+
+                        // Create a new instance of Html5Qrcode to scan the file
+                        html5QrCode = new Html5Qrcode("qr-reader");
+                        html5QrCode.scanFile(file, false)
+                            .then((decodedText) => {
+                                console.log(`QR Code scanned from file: ${decodedText}`);
+                                // Redirect to Transfer page with auto-filled data
+                                window.location.href = `Transfer.html?toUserId=${encodeURIComponent(decodedText)}`;
+                            })
+                            .catch((err) => {
+                                console.error("Error scanning QR code from file: ", err);
+                            });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

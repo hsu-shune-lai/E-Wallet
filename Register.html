@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account - S.Wallet</title>
+    <link href="./output.css" rel="stylesheet" />
+</head>
+<body class="bg-blue-950 font-sans">
+    <!-- Container -->
+    <div class="bg-white p-8 m-14 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold text-center mb-8">Create Account</h1>
+        <form id="signup-form">
+            <!-- Full Name -->
+            <div class="mb-4">
+                <label for="full-name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+                <input
+                    id="full-name"
+                    type="text"
+                    placeholder="Shune Lai"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    autocomplete="name"
+                />
+            </div>
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="shunelai@example.com"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    autocomplete="email"
+                />
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="********"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    autocomplete="new-password"
+                />
+            </div>
+
+            <!-- Accept Terms -->
+            <div class="mb-6">
+                <label class="inline-flex items-center">
+                    <input
+                        type="checkbox"
+                        class="form-checkbox h-5 w-5 text-blue-600"
+                        required
+                    />
+                    <span class="ml-2 text-gray-700">
+                        I agree to the
+                        <a href="#" class="text-blue-600">Terms of Service</a> and
+                        <a href="#" class="text-blue-600">Privacy Policy</a>
+                    </span>
+                </label>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+                id="submit"
+                class="w-full bg-blue-600 text-white py-3 rounded-md font-semibold shadow-md hover:bg-blue-700"
+                type="submit"
+            >
+                Create Account
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("signup-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const fullName = document.getElementById("full-name").value;
+            const password = document.getElementById("password").value;
+
+            // Validate form inputs
+            if (!email || !fullName || !password) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            fetch("https://kyawkokotun.pythonanywhere.com/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email,
+                    username: fullName, // Use 'username' to match API
+                    password,
+                }),
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    return response.text().then((text) => {
+                        throw new Error(`HTTP error! status: ${response.status}, message: ${text}`);
+                    });
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.message === "User created successfully") {
+                    alert("Account created successfully!");
+                    window.location.href = "./Home.html";
+                } else {
+                    alert("Failed to create account: " + data.message);
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                alert("There was an error creating your account: " + error.message);
+            });
+        });
+    </script>
+</body>
+</html>
