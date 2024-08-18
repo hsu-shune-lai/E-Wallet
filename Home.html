@@ -14,20 +14,22 @@
   </head>
   <body>
     <!-- Top Bar -->
-    <div class="flex items-center justify-between bg-blue-950 px-5 py-7 text-white">
+    <div
+      class="flex justify-between bg-blue-950 px-5 py-7 items-center text-white"
+    >
       <div class="text-lg font-bold">
         <span class="text-blue-500">S</span>.Wallet
       </div>
-      <div class="flex items-center space-x-2">
+      <div>
         <input
           id="search-input"
           type="text"
-          class="border border-gray-300 rounded-md p-2 outline-none text-black transition-transform duration-300 ease-in-out transform scale-0 md:scale-100"
+          class="ml-2 border border-gray-300 rounded-md p-2 outline-none transition-all duration-300 ease-in-out transform scale-0 origin-right text-black"
           placeholder="Search..."
         />
         <i
           id="search-icon"
-          class="fa-solid fa-magnifying-glass text-2xl cursor-pointer hover:text-blue-500"
+          class="fa-solid fa-magnifying-glass text-2xl hover:text-blue-500"
         ></i>
       </div>
     </div>
@@ -44,7 +46,11 @@
     <!-- Action Card -->
     <div class="m-7">
       <div class="flex justify-between bg-white shadow-md p-5 rounded-lg">
-        <a href="./Transfer.html" class="flex flex-col items-center">
+        <a
+          href="./Transfer.html"
+          class="flex flex-col items-center"
+          id="transfer-btn"
+        >
           <div class="rounded-full bg-blue-950 p-2">
             <i class="fa-solid fa-money-bill-transfer text-2xl text-white"></i>
           </div>
@@ -87,7 +93,10 @@
       <h2 class="text-lg font-semibold mb-2">Subscriptions</h2>
       <div class="bg-white rounded-lg shadow-md p-4 mb-4">
         <div>
-          <img src="./Images/Netflix-Logo.jfif" class="w-10 h-10 rounded-full" />
+          <img
+            src="./Images/Netflix-Logo.jfif"
+            class="w-10 h-10 rounded-full"
+          />
           <h3 class="font-semibold">Netflix</h3>
           <p class="text-sm text-gray-500 mt-2">
             Next payment <span class="text-black">13 Jan</span>
@@ -97,7 +106,10 @@
       </div>
       <div class="bg-white rounded-lg shadow-md p-4 mb-4">
         <div>
-          <img src="./Images/DisneyPlusLogo.jfif" class="w-10 h-10 rounded-full" />
+          <img
+            src="./Images/DisneyPlusLogo.jfif"
+            class="w-10 h-10 rounded-full"
+          />
           <h3 class="font-semibold">Disney+</h3>
           <p class="text-sm text-gray-500 mt-2">
             Next payment <span class="text-black">Tomorrow</span>
@@ -115,7 +127,9 @@
           <span class="text-sm mt-2">Home</span>
         </a>
         <a href="Invest.html" class="flex flex-col items-center">
-          <i class="fa-solid fa-money-bill-trend-up text-2xl hover:text-blue-400"></i>
+          <i
+            class="fa-solid fa-money-bill-trend-up text-2xl hover:text-blue-400"
+          ></i>
           <span class="text-sm mt-2">Invest</span>
         </a>
         <a href="Scan.html" class="flex flex-col items-center">
@@ -190,11 +204,13 @@
       }
 
       function displayHomeTransactions(transactions) {
-        const transactionContainer = document.getElementById("home-transactions");
+        const transactionContainer =
+          document.getElementById("home-transactions");
         transactionContainer.innerHTML = ""; // Clear existing entries
 
         if (transactions.length === 0) {
-          transactionContainer.innerHTML = '<p class="text-gray-500">No transactions found.</p>';
+          transactionContainer.innerHTML =
+            '<p class="text-gray-500">No transactions found.</p>';
           return;
         }
 
@@ -205,34 +221,44 @@
           transactionItem.onclick = () => viewTransactionDetails(transaction);
 
           transactionItem.innerHTML = `
-            <span>To: ${transaction.to_user_id}</span>
-            <span>$${parseFloat(transaction.amount).toFixed(2)}</span>
-          `;
+      <span>To: ${transaction.to_user_id}</span>
+      <span>$${parseFloat(transaction.amount).toFixed(2)}</span>
+    `;
 
           transactionContainer.appendChild(transactionItem);
         });
       }
 
       function viewTransactionDetails(transaction) {
-        // Store transaction details in sessionStorage
-        sessionStorage.setItem("transTo", transaction.to_user_id || "Unknown recipient");
-        sessionStorage.setItem("transAmount", `$${parseFloat(transaction.amount).toFixed(2)}`);
-        sessionStorage.setItem("transDate", transaction.created_at || "Unknown date");
+  // Store transaction details in sessionStorage
+  sessionStorage.setItem("transTo", transaction.to_user_id || "Unknown recipient");
+  sessionStorage.setItem("transAmount", transaction.amount || "0.00");
+  sessionStorage.setItem("transDate", transaction.created_at || "Unknown date");
 
-        // Redirect to Detail page
-        window.location.href = "Detail.html";
-      }
+  // Redirect to Detail page
+  window.location.href = "./Detail.html";
+}
 
-      document.addEventListener("DOMContentLoaded", function () {
+
+      document.addEventListener("DOMContentLoaded", () => {
         fetchBalance();
         loadHomeTransactions();
+      });
 
+      // Adjusted intervals for balance and transactions refreshing
+      setInterval(fetchBalance, 60000); // 1 minute
+      setInterval(loadHomeTransactions, 60000); // 1 minute
+
+      document.addEventListener("DOMContentLoaded", () => {
         const searchIcon = document.getElementById("search-icon");
         const searchInput = document.getElementById("search-input");
 
-        searchIcon.addEventListener("click", function () {
+        searchIcon.addEventListener("click", () => {
+          searchInput.classList.toggle("scale-0");
           searchInput.classList.toggle("scale-100");
-          searchInput.focus();
+          if (!searchInput.classList.contains("scale-0")) {
+            searchInput.focus();
+          }
         });
       });
     </script>
