@@ -53,8 +53,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             let html5QrCode;
 
-            // Start scanning via camera
-            document.getElementById("start-scan").addEventListener("click", () => {
+            const startScan = () => {
                 const qrReader = document.getElementById("qr-reader");
                 html5QrCode = new Html5Qrcode("qr-reader");
 
@@ -81,10 +80,9 @@
                 ).catch((err) => {
                     console.error("Error starting QR code scanning: ", err);
                 });
-            });
+            };
 
-            // Stop scanning
-            document.getElementById("stop-scan").addEventListener("click", () => {
+            const stopScan = () => {
                 if (html5QrCode) {
                     html5QrCode.stop().then(() => {
                         console.log("QR code scanning stopped.");
@@ -92,7 +90,13 @@
                         console.error("Error stopping QR code scanning: ", err);
                     });
                 }
-            });
+            };
+
+            // Start scanning via camera
+            document.getElementById("start-scan").addEventListener("click", startScan);
+
+            // Stop scanning
+            document.getElementById("stop-scan").addEventListener("click", stopScan);
 
             // Scan QR code from an uploaded image file
             document.getElementById("file-input").addEventListener("change", (event) => {

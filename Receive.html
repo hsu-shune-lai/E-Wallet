@@ -79,9 +79,10 @@
                 const a = document.createElement("a");
                 a.href = imageUrl;
                 a.download = "qrcode.png";
+                a.target = "_blank"; // Open in a new tab if needed
                 document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a);
+                a.remove(); // Cleanup
             } else {
                 alert("No QR code to save.");
             }
