@@ -69,6 +69,12 @@
         transactions.forEach((transaction) => {
           const transactionItem = document.createElement("div");
           transactionItem.className = "bg-white shadow-md rounded-lg p-4 cursor-pointer hover:bg-gray-100";
+          
+          // Set transaction details as data attributes
+          transactionItem.dataset.toUserId = transaction.to_user_id;
+          transactionItem.dataset.amount = transaction.amount;
+          transactionItem.dataset.createdAt = transaction.created_at;
+
           transactionItem.onclick = () => viewTransactionDetails(transaction);
 
           transactionItem.innerHTML = `
@@ -86,9 +92,13 @@
       }
 
       function viewTransactionDetails(transaction) {
-        // Redirect to the detail page with query parameters
-        const detailUrl = `./Detail.html?id=${transaction.id}&to=${encodeURIComponent(transaction.to_user_id)}&amount=${transaction.amount}&from=${encodeURIComponent(transaction.from_user_id)}&date=${encodeURIComponent(transaction.created_at)}`;
-        window.location.href = detailUrl;
+        // Store transaction details in sessionStorage
+        sessionStorage.setItem("transTo", transaction.to_user_id);
+        sessionStorage.setItem("transAmount", transaction.amount);
+        sessionStorage.setItem("transDate", transaction.created_at);
+
+        // Redirect to Detail page
+        window.location.href = './Detail.html';
       }
 
       document.addEventListener("DOMContentLoaded", loadHistoryTransactions);

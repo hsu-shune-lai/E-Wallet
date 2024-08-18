@@ -47,7 +47,7 @@
         const transTo =
           sessionStorage.getItem("transTo") || "Unknown recipient";
         const transAmount = sessionStorage.getItem("transAmount") || "0.00";
-        const transDate = sessionStorage.getItem("transTime") || "Unknown date";
+        const transDate = sessionStorage.getItem("transDate") || "Unknown date";
 
         // Update the HTML with transaction details
         document.getElementById("trans-to").textContent = transTo;
@@ -55,6 +55,11 @@
           transAmount
         ).toFixed(2)}`;
         document.getElementById("trans-date").textContent = transDate;
+        window.addEventListener("beforeunload", () => {
+          sessionStorage.removeItem("transTo");
+          sessionStorage.removeItem("transAmount");
+          sessionStorage.removeItem("transDate");
+        });
       });
     </script>
   </body>

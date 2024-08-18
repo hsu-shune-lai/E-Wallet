@@ -71,9 +71,11 @@
         });
 
         document.getElementById("save-btn").addEventListener("click", () => {
-            const qrCodeImage = document.querySelector("#qrcode img");
-            if (qrCodeImage) {
-                const imageUrl = qrCodeImage.src;
+            const qrCodeCanvas = document.querySelector("#qrcode canvas");
+            if (qrCodeCanvas) {
+                const imageUrl = qrCodeCanvas.toDataURL("image/png");
+                
+                // Create a temporary link to trigger the download
                 const a = document.createElement("a");
                 a.href = imageUrl;
                 a.download = "qrcode.png";

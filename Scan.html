@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mobile Wallet - Scan</title>
-    <!-- Tailwind Link -->
+    <title>Scan QR Code</title>
+    <!-- Tailwind CSS -->
     <link rel="stylesheet" href="./output.css" />
     <!-- FontAwesome Icons -->
     <script src="https://kit.fontawesome.com/ba239f360c.js" crossorigin="anonymous"></script>
     <!-- HTML5 QR Code Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js" integrity="sha512-r6rDA7W6ZeQhvl8S7yRVQUKVHdexq+GAlNkNNqVC7YyIV+NwqCTJe2hDWCiffTyRNOeGEzRRJ9ifvRm/HCzGYg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-
 <body class="bg-gray-100">
     <!-- Top Bar -->
     <div class="flex justify-between bg-blue-950 px-5 py-7 items-center text-white">
@@ -67,7 +65,6 @@
                         qrbox: { width: 250, height: 250 }, // QR code box size
                     },
                     (decodedText, decodedResult) => {
-                        // Handle the result here
                         console.log(`QR Code scanned: ${decodedText}`);
                         html5QrCode.stop().then(() => {
                             console.log("QR code scanning stopped.");
@@ -105,12 +102,10 @@
                     reader.onload = () => {
                         const imageData = reader.result;
 
-                        // Create a new instance of Html5Qrcode to scan the file
                         html5QrCode = new Html5Qrcode("qr-reader");
                         html5QrCode.scanFile(file, false)
                             .then((decodedText) => {
                                 console.log(`QR Code scanned from file: ${decodedText}`);
-                                // Redirect to Transfer page with auto-filled data
                                 window.location.href = `Transfer.html?toUserId=${encodeURIComponent(decodedText)}`;
                             })
                             .catch((err) => {
@@ -123,5 +118,4 @@
         });
     </script>
 </body>
-
 </html>

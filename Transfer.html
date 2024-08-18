@@ -169,15 +169,34 @@
                 transactions.slice(0, 5).forEach((transaction) => {
                     const transferItem = document.createElement("div");
                     transferItem.className = "flex justify-between mb-2 cursor-pointer";
+                    
+                    // Convert date to local time
+                    const date = transaction.created_at
+                        ? new Date(transaction.created_at).toLocaleString()
+                        : "Unknown date";
+
+                    console.log("Date from API:", transaction.created_at);
+                    console.log("Formatted date:", date);
+
                     transferItem.innerHTML = `
                         <span>To: ${transaction.to_user_id}</span>
                         <span>$${parseFloat(transaction.amount).toFixed(2)}</span>
+                        <span>${date}</span>
                     `;
                     transferItem.addEventListener("click", () => {
-                        sessionStorage.setItem("transTo", transaction.to_user_id);
-                        sessionStorage.setItem("transAmount", transaction.amount);
-                        sessionStorage.setItem("transTime", new Date(transaction.created_at).toLocaleString());
-                        sessionStorage.setItem("transNote", transaction.description || "No description");
+                        sessionStorage.setItem(
+                            "transTo",
+                            transaction.to_user_id || "Unknown recipient"
+                        );
+                        sessionStorage.setItem(
+                            "transAmount",
+                            transaction.amount || "0.00"
+                        );
+                        sessionStorage.setItem("transDate", date);
+                        sessionStorage.setItem(
+                            "transNote",
+                            transaction.description || "No description"
+                        );
 
                         window.location.href = "./Detail.html";
                     });
